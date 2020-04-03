@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -20,7 +22,8 @@ public class Client implements Serializable {
     private Long id;
     private String nom;
     private String prenom;
-    private String dateNaissance;
+    @Temporal(TemporalType.DATE)
+    private Date dateNaissance;
     private String adressePostale;
     @Column(unique = true)
     private String numeroTelephone;
@@ -32,7 +35,7 @@ public class Client implements Serializable {
     protected Client() {
     }
 
-      public Client(String nom, String prenom, String dateNaissance, String adressePostale, String numeroTelephone, String civilite, String mail, String motDePasse) {
+      public Client(String nom, String prenom, Date dateNaissance, String adressePostale, String numeroTelephone, String civilite, String mail, String motDePasse) {
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
@@ -64,11 +67,11 @@ public class Client implements Serializable {
         this.prenom = prenom;
     }
 
-    public String getDateNaissance() {
+    public Date getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(String dateNaissance) {
+    public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
