@@ -13,13 +13,13 @@ import javax.persistence.Entity;
  * @author Ghali
  */
 @Entity
-public class Spirite extends Medium implements Serializable {
+public class Spirite extends Medium {
     private String support;
 
     public Spirite() {
     }
 
-    public Spirite(String support, String denomination, String genre, String presentation, String nbConsultation, String civilite) {
+    public Spirite(String support, String denomination, String genre, String presentation, int nbConsultation, String civilite) {
         super(denomination, genre, presentation, nbConsultation, civilite);
         this.support = support;
     }
@@ -31,4 +31,11 @@ public class Spirite extends Medium implements Serializable {
     public void setSupport(String support) {
         this.support = support;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+ " support:" + support; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

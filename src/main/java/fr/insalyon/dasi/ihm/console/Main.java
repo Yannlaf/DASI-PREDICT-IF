@@ -1,8 +1,12 @@
 package fr.insalyon.dasi.ihm.console;
 
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.metier.modele.Astrologue;
+import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
+import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.service.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +32,7 @@ public class Main {
         //initialiserEmployes(); 
         testerInscriptionClient();  
         testerInscriptionEmploye();
+        initialiserMediums();
         //testerRechercheClient();         
         //testerListeClients();            
         //testerAuthentificationClient();  
@@ -43,6 +48,10 @@ public class Main {
     
     public static void afficherEmploye(Employe employe) {
         System.out.println("-> " + employe);
+    }
+    
+    public static void afficherMedium(Medium medium) {
+        System.out.println("->" + medium);
     }
 
     public static void initialiserClients() throws ParseException {
@@ -219,8 +228,52 @@ public class Main {
         }
         afficherEmploye(hedwig);
     }
-
     
+    public static void initialiserMediums() throws ParseException {
+        
+        System.out.println();
+        System.out.println("**** initialiserMedium ****");
+        System.out.println();
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        
+        Spirite ada = new Spirite("supportest", "chamharouch", "esprit", "gay", 120, "Mr");
+        Cartomancien blaise = new Cartomancien("3aicha", "9endicha", "PD", 31, "Mlle");
+        Astrologue fred = new Astrologue("formationtest", "promotiontest", "3aicha", "lba7riya", "rl-jadida", 500, "Mme");
+        
+        System.out.println();
+        System.out.println("** Medium avant persistance: ");
+        afficherMedium(ada);
+        afficherMedium(blaise);
+        afficherMedium(fred);
+        System.out.println();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(ada);
+            em.persist(blaise);
+            em.persist(fred);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
+            try {
+                em.getTransaction().rollback();
+            }
+            catch (IllegalStateException ex2) {
+                // Ignorer cette exception...
+            }
+        } finally {
+            em.close();
+        }
+
+        System.out.println();
+        System.out.println("** Medium après persistance: ");
+        afficherMedium(ada);
+        afficherMedium(blaise);
+        afficherMedium(fred);
+        System.out.println();
+    }
     
     /*public static void testerRechercheClient() {
         

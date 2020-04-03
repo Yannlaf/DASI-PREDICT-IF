@@ -11,13 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  *
  * @author Ghali
  */
 @Entity
-public abstract class Medium implements Serializable {
+@Inheritance (strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Medium {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +28,13 @@ public abstract class Medium implements Serializable {
     private String denomination;
     private String genre;
     private String presentation;
-    private String nbConsultation;
+    private int nbConsultation;
     private String civilite;
 
     public Medium() {
     }
 
-    public Medium(String denomination, String genre, String presentation, String nbConsultation, String civilite) {
+    public Medium(String denomination, String genre, String presentation, int nbConsultation, String civilite) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
@@ -71,12 +74,16 @@ public abstract class Medium implements Serializable {
         this.presentation = presentation;
     }
 
-    public String getNbConsultation() {
+    public int getNbConsultation() {
         return nbConsultation;
     }
 
-    public void setNbConsultation(String nbConsultation) {
+    public void setNbConsultation(int nbConsultation) {
         this.nbConsultation = nbConsultation;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Id: "+id+" "+ civilite+ " denomination: "+denomination+" genre: "+genre+" presentation: "+presentation+" consulte: "+nbConsultation+" fois"; //To change body of generated methods, choose Tools | Templates.
+    }   
 }

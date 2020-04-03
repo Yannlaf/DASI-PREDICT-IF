@@ -5,7 +5,6 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -13,13 +12,17 @@ import javax.persistence.Entity;
  * @author Ghali
  */
 @Entity
-public class Cartomancien extends Medium implements Serializable {
+public class Cartomancien extends Medium {
 
     public Cartomancien() {
     }
     
-    public Cartomancien(String denomination, String genre, String presentation, String nbConsultation, String civilite){
+    public Cartomancien(String denomination, String genre, String presentation, int nbConsultation, String civilite){
         super(denomination, genre, presentation, nbConsultation, civilite);
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -5,7 +5,6 @@
  */
 package fr.insalyon.dasi.metier.modele;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 
 /**
@@ -13,7 +12,7 @@ import javax.persistence.Entity;
  * @author Ghali
  */
 @Entity
-public class Astrologue extends Medium implements Serializable {
+public class Astrologue extends Medium {
     
     private String formation;
     private String promotion;
@@ -21,7 +20,7 @@ public class Astrologue extends Medium implements Serializable {
     public Astrologue() {
     }
 
-    public Astrologue(String formation, String promotion, String denomination, String genre, String presentation, String nbConsultation, String civilite) {
+    public Astrologue(String formation, String promotion, String denomination, String genre, String presentation, int nbConsultation, String civilite) {
         super(denomination, genre, presentation, nbConsultation, civilite);
         this.formation = formation;
         this.promotion = promotion;
@@ -42,5 +41,10 @@ public class Astrologue extends Medium implements Serializable {
     public void setPromotion(String promotion) {
         this.promotion = promotion;
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString()+" formation:"+formation+" promotion:"+promotion; //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
