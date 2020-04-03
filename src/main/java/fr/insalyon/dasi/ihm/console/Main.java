@@ -3,6 +3,7 @@ package fr.insalyon.dasi.ihm.console;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.service.Service;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +23,13 @@ public class Main {
         // Contrôlez l'affichage du log de JpaUtil grâce à la méthode log de la classe JpaUtil
         JpaUtil.init();
 
-        initialiserClients();            // Question 3
-      
+        //initialiserClients();            // Question 3
+        testerInscriptionClient();       // Question 4 & 5
+        //testerRechercheClient();         // Question 6
+        //testerListeClients();            // Question 7
+        //testerAuthentificationClient();  // Question 8
+        //saisirInscriptionClient();       // Question 9
+        //saisirRechercheClient();
 
         JpaUtil.destroy();
     }
@@ -40,23 +46,22 @@ public class Main {
         
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
         EntityManager em = emf.createEntityManager();
-
-        Client ada = new Client("Lovelace", "Ada", "ada.lovelace@insa-lyon.fr", "Ada1012");
-        Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906");
-        Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever");
+        Client ada = new Client("Lovelace", "Ada","1947/02/05","128 bd du 11/11/1918","0574849587","MME","ada.lovelace@insa-lyon.fr", "Ada1012");
+        //Client blaise = new Client("Pascal", "Blaise", "blaise.pascal@insa-lyon.fr", "Blaise1906");
+        //Client fred = new Client("Fotiadu", "Frédéric", "frederic.fotiadu@insa-lyon.fr", "INSA-Forever");
         
         System.out.println();
         System.out.println("** Clients avant persistance: ");
         afficherClient(ada);
-        afficherClient(blaise);
-        afficherClient(fred);
+        //afficherClient(blaise);
+        //afficherClient(fred);
         System.out.println();
 
         try {
             em.getTransaction().begin();
             em.persist(ada);
-            em.persist(blaise);
-            em.persist(fred);
+            //em.persist(blaise);
+            //em.persist(fred);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
@@ -73,8 +78,8 @@ public class Main {
         System.out.println();
         System.out.println("** Clients après persistance: ");
         afficherClient(ada);
-        afficherClient(blaise);
-        afficherClient(fred);
+        //afficherClient(blaise);
+        //afficherClient(fred);
         System.out.println();
     }
 
@@ -85,7 +90,7 @@ public class Main {
         System.out.println();
         
         Service service = new Service();
-        Client claude = new Client("Chappe", "Claude", "claude.chappe@insa-lyon.fr", "HaCKeR");
+        Client claude = new Client("Chappe", "Claude","1947/02/05","128 bd du 11/11/1918","0574219587","Mr", "claude.chappe@insa-lyon.fr", "HaCKeR");
         Long idClaude = service.inscrireClient(claude);
         if (idClaude != null) {
             System.out.println("> Succès inscription");
@@ -94,7 +99,7 @@ public class Main {
         }
         afficherClient(claude);
 
-        Client hedy = new Client("Lamarr", "Hedy", "hlamarr@insa-lyon.fr", "WiFi");
+        Client hedy = new Client("Lamarr", "Hedy","1947/02/05","128 bd du 11/11/1918","0574959587","Mr", "hlamarr@insa-lyon.fr", "WiFi");
         Long idHedy = service.inscrireClient(hedy);
         if (idHedy != null) {
             System.out.println("> Succès inscription");
@@ -103,7 +108,7 @@ public class Main {
         }
         afficherClient(hedy);
 
-        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria", "hlamarr@insa-lyon.fr", "WiFi");
+        Client hedwig = new Client("Lamarr", "Hedwig Eva Maria","1947/02/05","128 bd du 11/11/1918","0579949587","Mr", "hed@insa-lyon.fr", "WiFi");
         Long idHedwig = service.inscrireClient(hedwig);
         if (idHedwig != null) {
             System.out.println("> Succès inscription");
@@ -113,7 +118,7 @@ public class Main {
         afficherClient(hedwig);
     }
 
-    public static void testerRechercheClient() {
+    /*public static void testerRechercheClient() {
         
         System.out.println();
         System.out.println("**** testerRechercheClient() ****");
@@ -302,5 +307,5 @@ public class Main {
         System.out.println("*****************");
         System.out.println();
 
-    }
+    }*/
 }
