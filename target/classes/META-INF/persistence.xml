@@ -4,11 +4,11 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>fr.insalyon.dasi.metier.modele.Client</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/db"/>
-      <property name="javax.persistence.jdbc.user" value="ylafaille"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/TD_DASI"/>
+      <property name="javax.persistence.jdbc.user" value="B3132"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="Tljjfdma16h."/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.jdbc.password" value="tddasi"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
