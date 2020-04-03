@@ -143,6 +143,43 @@ public class Main {
         //afficherEmploye(fred);
         System.out.println();
     }
+    public static void initialiserConsultation() throws ParseException {
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String dateInString = "07-10-1987";
+        Date date = formatter.parse(dateInString);
+        
+        System.out.println();
+        System.out.println("**** initialiserConsultation() ****");
+        System.out.println();
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        
+        Consultation ada = new Consultation(123462,164646 ,date,date);
+        
+        
+        System.out.println();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(ada);
+  
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
+            try {
+                em.getTransaction().rollback();
+            }
+            catch (IllegalStateException ex2) {
+                // Ignorer cette exception...
+            }
+        } finally {
+            em.close();
+        }
+
+    }
+    
 
     public static void testerInscriptionClient() throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
