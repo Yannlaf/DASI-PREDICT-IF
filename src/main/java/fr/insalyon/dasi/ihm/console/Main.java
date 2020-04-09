@@ -7,6 +7,7 @@ import fr.insalyon.dasi.metier.service.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,13 +27,17 @@ public class Main {
 
         //initialiserClients();  
         //initialiserEmployes(); 
-        testerInscriptionClient();  
-        testerInscriptionEmploye();
-        //testerRechercheClient();         
-        //testerListeClients();            
-        //testerAuthentificationClient();  
+        //testerInscriptionClient();  
+        //testerInscriptionEmploye();
+        //testerRechercheClient();   
+        //testerRechercheEmploye();
+        //testerListeClients();    
+        //testerListeEmployes();
+        //testerAuthentificationClient(); 
+        //testerAuthentificationEmploye();
         //saisirInscriptionClient();       
         //saisirRechercheClient();
+        saisirRechercheEmploye();
 
         JpaUtil.destroy();
     }
@@ -143,43 +148,6 @@ public class Main {
         //afficherEmploye(fred);
         System.out.println();
     }
-    public static void initialiserConsultation() throws ParseException {
-        
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        String dateInString = "07-10-1987";
-        Date date = formatter.parse(dateInString);
-        
-        System.out.println();
-        System.out.println("**** initialiserConsultation() ****");
-        System.out.println();
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
-        EntityManager em = emf.createEntityManager();
-        
-        Consultation ada = new Consultation(123462,164646 ,date,date);
-        
-        
-        System.out.println();
-
-        try {
-            em.getTransaction().begin();
-            em.persist(ada);
-  
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service", ex);
-            try {
-                em.getTransaction().rollback();
-            }
-            catch (IllegalStateException ex2) {
-                // Ignorer cette exception...
-            }
-        } finally {
-            em.close();
-        }
-
-    }
-    
 
     public static void testerInscriptionClient() throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
@@ -217,6 +185,9 @@ public class Main {
             System.out.println("> Échec inscription");
         }
         afficherClient(hedwig);
+        
+        //creer profil astral 
+        
     }
     
     public static void testerInscriptionEmploye() throws ParseException {
@@ -256,10 +227,8 @@ public class Main {
         }
         afficherEmploye(hedwig);
     }
-
-    
-    
-    /*public static void testerRechercheClient() {
+     
+    public static void testerRechercheClient() {
         
         System.out.println();
         System.out.println("**** testerRechercheClient() ****");
@@ -297,6 +266,44 @@ public class Main {
         }
     }
 
+    public static void testerRechercheEmploye() {
+        
+        System.out.println();
+        System.out.println("**** testerRechercheEmploye() ****");
+        System.out.println();
+        
+        Service service = new Service();
+        long id;
+        Employe employe;
+
+        id = 1;
+        System.out.println("** Recherche du Employe #" + id);
+        employe = service.rechercherEmployeParId(id);
+        if (employe != null) {
+            afficherEmploye(employe);
+        } else {
+            System.out.println("=> Employe non-trouvé");
+        }
+
+        id = 3;
+        System.out.println("** Recherche du Employe #" + id);
+        employe = service.rechercherEmployeParId(id);
+        if (employe != null) {
+            afficherEmploye(employe);
+        } else {
+            System.out.println("=> Employe non-trouvé");
+        }
+
+        id = 17;
+        System.out.println("** Recherche du Employe #" + id);
+        employe = service.rechercherEmployeParId(id);
+        if (employe != null) {
+            afficherEmploye(employe);
+        } else {
+            System.out.println("=> Employe #" + id + " non-trouvé");
+        }
+    }
+    
     public static void testerListeClients() {
         
         System.out.println();
@@ -315,6 +322,25 @@ public class Main {
             System.out.println("=> ERREUR...");
         }
     }
+    
+    public static void testerListeEmployes() {
+        
+        System.out.println();
+        System.out.println("**** testerListeEmployes() ****");
+        System.out.println();
+        
+        Service service = new Service();
+        List<Employe> listeEmployes = service.listerEmployes();
+        System.out.println("*** Liste des Employes");
+        if (listeEmployes != null) {
+            for (Employe employe : listeEmployes) {
+                afficherEmploye(employe);
+            }
+        }
+        else {
+            System.out.println("=> ERREUR...");
+        }
+    }
 
     public static void testerAuthentificationClient() {
         
@@ -327,8 +353,8 @@ public class Main {
         String mail;
         String motDePasse;
 
-        mail = "ada.lovelace@insa-lyon.fr";
-        motDePasse = "Ada1012";
+        mail = "claude.chappe@insa-lyon.fr";
+        motDePasse = "HaCKeR";
         client = service.authentifierClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
@@ -337,8 +363,8 @@ public class Main {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
 
-        mail = "ada.lovelace@insa-lyon.fr";
-        motDePasse = "Ada2020";
+        mail = "claude.chappe@insa-lyon.fr";
+        motDePasse = "HaCKeR77";
         client = service.authentifierClient(mail, motDePasse);
         if (client != null) {
             System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
@@ -357,9 +383,54 @@ public class Main {
             System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
         }
     }
-
-    public static void saisirInscriptionClient() {
+    
+    public static void testerAuthentificationEmploye() {
+        
+        System.out.println();
+        System.out.println("**** testerAuthentificationEmploye() ****");
+        System.out.println();
+        
         Service service = new Service();
+        Employe employe;
+        String mail;
+        String motDePasse;
+
+        mail = "hlamarr@insa-lyon.fr";
+        motDePasse = "WiFi";
+        employe = service.authentifierEmploye(mail, motDePasse);
+        if (employe != null) {
+            System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+            afficherEmploye(employe);
+        } else {
+            System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+        }
+
+        mail = "hlamarr@insa-lyon.fr";
+        motDePasse = "WiFi88";
+        employe = service.authentifierEmploye(mail, motDePasse);
+        if (employe != null) {
+            System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+            afficherEmploye(employe);
+        } else {
+            System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+        }
+
+        mail = "etudiant.fictif@insa-lyon.fr";
+        motDePasse = "********";
+        employe = service.authentifierEmploye(mail, motDePasse);
+        if (employe != null) {
+            System.out.println("Authentification réussie avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+            afficherEmploye(employe);
+        } else {
+            System.out.println("Authentification échouée avec le mail '" + mail + "' et le mot de passe '" + motDePasse + "'");
+        }
+    }
+
+    public static void saisirInscriptionClient() throws ParseException {
+        Service service = new Service();
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        
 
         System.out.println();
         System.out.println("Appuyer sur Entrée pour passer la pause...");
@@ -373,10 +444,16 @@ public class Main {
 
         String nom = Saisie.lireChaine("Nom ? ");
         String prenom = Saisie.lireChaine("Prénom ? ");
+        String dateNaissanceString = Saisie.lireChaine("Date de Naissance ? (Format : dd-MM-yyyy) ");
+        String adressePostale = Saisie.lireChaine("Adresse Postale ? ");
+        String numeroTelephone = Saisie.lireChaine("Numero de Telephone ? ");
+        String civilite = Saisie.lireChaine("Civilité ? ");
         String mail = Saisie.lireChaine("Mail ? ");
         String motDePasse = Saisie.lireChaine("Mot de passe ? ");
+        
+        Date dateNaissance = formatter.parse(dateNaissanceString);
 
-        Client client = new Client(nom, prenom, mail, motDePasse);
+        Client client = new Client(nom,prenom,dateNaissance,adressePostale,numeroTelephone,civilite,mail,motDePasse);
         Long idClient = service.inscrireClient(client);
 
         if (idClient != null) {
@@ -448,5 +525,67 @@ public class Main {
         System.out.println("*****************");
         System.out.println();
 
-    }*/
+    }
+    
+    public static void saisirRechercheEmploye() {
+        Service service = new Service();
+
+        System.out.println();
+        System.out.println("*********************");
+        System.out.println("** MENU INTERACTIF **");
+        System.out.println("*********************");
+        System.out.println();
+
+        Saisie.pause();
+
+        System.out.println();
+        System.out.println("**************************");
+        System.out.println("** RECHERCHE d'Employes **");
+        System.out.println("**************************");
+        System.out.println();
+        System.out.println();
+        System.out.println("** Recherche par Identifiant:");
+        System.out.println();
+
+        Integer idEmploye = Saisie.lireInteger("Identifiant ? [0 pour quitter] ");
+        while (idEmploye != 0) {
+            Employe Employe = service.rechercherEmployeParId(idEmploye.longValue());
+            if (Employe != null) {
+                afficherEmploye(Employe);
+            } else {
+                System.out.println("=> Employe #" + idEmploye + " non-trouvé");
+            }
+            System.out.println();
+            idEmploye = Saisie.lireInteger("Identifiant ? [0 pour quitter] ");
+        }
+
+        System.out.println();
+        System.out.println("********************************");
+        System.out.println("** AUTHENTIFICATION d'EMPLOYES **");
+        System.out.println("********************************");
+        System.out.println();
+        System.out.println();
+        System.out.println("** Authentifier Employe:");
+        System.out.println();
+
+        String EmployeMail = Saisie.lireChaine("Mail ? [0 pour quitter] ");
+
+        while (!EmployeMail.equals("0")) {
+            String EmployeMotDePasse = Saisie.lireChaine("Mot de passe ? ");
+            Employe Employe = service.authentifierEmploye(EmployeMail, EmployeMotDePasse);
+            if (Employe != null) {
+                afficherEmploye(Employe);
+            } else {
+                System.out.println("=> Employe non-authentifié");
+            }
+            EmployeMail = Saisie.lireChaine("Mail ? [0 pour quitter] ");
+        }
+
+        System.out.println();
+        System.out.println("*****************");
+        System.out.println("** AU REVOIR ! **");
+        System.out.println("*****************");
+        System.out.println();
+
+    }
 }

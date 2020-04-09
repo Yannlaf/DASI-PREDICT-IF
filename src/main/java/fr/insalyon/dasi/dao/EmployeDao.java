@@ -35,7 +35,7 @@ public class EmployeDao {
     
     public List<Employe> listerEmployes() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e ORDER BY c.nom ASC, c.prenom ASC", Employe.class);
+        TypedQuery<Employe> query = em.createQuery("SELECT e FROM Employe e ORDER BY e.nom ASC, e.prenom ASC", Employe.class);
         return query.getResultList();
     }
     

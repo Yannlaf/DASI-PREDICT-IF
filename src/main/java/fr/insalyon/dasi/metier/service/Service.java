@@ -25,6 +25,7 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             clientDao.creer(client);
+            
             JpaUtil.validerTransaction();
             resultat = client.getId();
         } catch (Exception ex) {
